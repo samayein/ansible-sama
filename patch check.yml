@@ -1,5 +1,5 @@
 ---
-- hosts: all
+- hosts: erpstgapp
   gather_facts: False
   tasks:
     - name: Update all packages
