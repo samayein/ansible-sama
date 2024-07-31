@@ -1,0 +1,9 @@
+---
+- hosts: all
+  gather_facts: False
+  tasks:
+    - name: Check Patch 
+      shell: zypper patch-check
+      register: response
+
+    - debug: msg="{{ response.stdout }}" 
