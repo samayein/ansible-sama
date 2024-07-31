@@ -2,8 +2,10 @@
 - hosts: all
   gather_facts: False
   tasks:
+    - name: Refresh 
+      shell: sudo zypper refresh
     - name: Check Patch 
-      shell: zypper patch-check
+      shell: sudo zypper patch-check
       register: response
 
     - debug: msg="{{ response.stdout }}" 
