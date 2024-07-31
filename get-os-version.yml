@@ -1,13 +1,11 @@
----
-- hosts: sapdev
-  gather_facts: yes
-  become: false
+- hosts: all
+  become: true
+  gather_facts: true
   tasks:
-  - name: System details
-    debug: msg="{{ item }}"
-    with_items: 
-    - "{{ ansible_distribution }}"
-    - "{{ ansible_distribution_version }}"
-    - "{{ ansible_distribution_major_version }}"  community.general.zypper:
-    name: nmap
-    state: present  
+    - name: Check if oracle linux is installed
+      shell: |
+        cat: /etc/system-release
+      register: os_name
+      ignore_errors: yes
+    - debug:
+      msg: "{{os_name.stdout}}"```  
