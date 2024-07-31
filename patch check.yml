@@ -2,6 +2,15 @@
 - hosts: erpstgapp
   tasks:
     - name: Update all packages
-      community.general.zypper:
+      zypper: 
        name: '*'
        state: latest
+      become: yes
+      register: patched
+    - name: Reboot the system when software has been updated
+      reboot:
+      when: patched is changed
+    - name: Check so that server is online
+      wait_for:
+        port: 22
+        search_regex: OpenSSH      
