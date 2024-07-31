@@ -1,5 +1,5 @@
 ---
-- hosts: all
+- hosts: sapdevdis
   gather_facts: False
   tasks:
     - name: Check Dist Version
