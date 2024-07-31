@@ -1,11 +1,9 @@
+---
 - hosts: all
-  become: true
-  gather_facts: true
+  gather_facts: False
   tasks:
-    - name: Check if oracle linux is installed
-      shell: |
-        cat: /etc/system-release
-      register: os_name
-      ignore_errors: yes
-    - debug:
-      msg: "{{os_name.stdout}}"```  
+    - name: Check Dist Version
+      shell: cat /etc/os-release
+      register: response
+
+    - debug: msg="{{ response.stdout }}" 
