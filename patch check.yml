@@ -3,7 +3,7 @@
       hosts: erpstgapp
       tasks:
       - name: Zypper Update
-          community.general.zypper: 
+          shell: zypper update
           name: '*'
           state: latest
         become: yes
