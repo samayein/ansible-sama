@@ -4,7 +4,7 @@
   become: true
   tasks:
     - name: Check for SSH root login
-      shell: grep "PermitRootLogin" /etc/ssh/sshd_config | awk '{print $2}'
+      shell: cat /etc/ssh/sshd_config | grep PermitRootLogin | awk '{print $2}'
       register: ssh_root_login
     - name: Print SSH root login status
       debug:
