@@ -1,0 +1,11 @@
+- name: Check security of Linux
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Patch Check
+      shell: zypper patch-check  | grep security
+      register: patch_check
+    - name: Print Patch Check
+      debug:
+        msg: "{{ patch_check.stdout }}"
