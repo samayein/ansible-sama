@@ -1,7 +1,7 @@
 ---
 - name: Check Permit Root Login
   hosts: all
-  become: true
+  gather_facts: False
   tasks:
     - name: Check for SSH root login
       shell: cat /etc/ssh/sshd_config | grep PermitRootLogin | awk '{print $2}'
