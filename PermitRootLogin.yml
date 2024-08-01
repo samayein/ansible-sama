@@ -1,0 +1,11 @@
+---
+- name: Check Permit Root Login
+  hosts: all
+  become: true
+  tasks:
+    - name: Check for SSH root login
+      shell: grep "PermitRootLogin" /etc/ssh/sshd_config | awk '{print $2}'
+      register: ssh_root_login
+    - name: Print SSH root login status
+      debug:
+        msg: SSH root login is {{ ssh_root_login.stdout }}
