@@ -8,4 +8,4 @@
       register: patch_check
     - name: Print Patch Check
       debug:
-        msg: "{{ patch_check.stdout }}"
+        msg: patch_check.stdout
