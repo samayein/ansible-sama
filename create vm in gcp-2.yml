@@ -15,7 +15,8 @@
               disk_size_gb: 40
               disk_type: pd-standard
         network_interfaces:
-          - subnetwork: projects/vpc-host-nonprod-406007/regions/asia-southeast1/subnetworks/backend
+          - subnetwork: 
+              selfLink: projects/vpc-host-nonprod-406007/regions/asia-southeast1/subnetworks/backend
             stack_type: IPV4_ONLY
         can_ip_forward: false
         deletion_protection: false
