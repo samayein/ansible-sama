@@ -1,0 +1,61 @@
+- name: 'Deploy gcp vm'
+  hosts: localhost
+  become: false
+  gather_facts: no
+
+  vars: 
+    gcp_project: "factory-nonprod-project"
+    gcp_region: "us-central1"
+    gcp_zone: "us-central1-a"
+	zone: "asia-southeast1-c"
+
+  # Roles & Tasks
+  tasks:
+
+  - name: create a disk
+    gcp_compute_disk:
+      name: samayein-tz-disk01
+      size_gb: 50
+      source_image: projects/windows-cloud/global/images/windows-server-2022-dc-v20241115
+      zone: "{{ zone }}"
+      project: "{{ gcp_project }}"
+      state: present
+    register: disk
+
+#  - name: create a network
+#    gcp_compute_network:
+#      name: network-instance
+#      project: "{{ gcp_project }}"
+#      auth_kind: "{{ gcp_cred_kind }}"
+#      service_account_file: "{{ gcp_cred_file }}"
+#      state: present
+#    register: network
+#
+#  - name: create a address
+#    gcp_compute_address:
+#      name: address-instance
+#      region: "{{ gcp_region }}"
+#      project: "{{ gcp_project }}"
+#      auth_kind: "{{ gcp_cred_kind }}"
+#      service_account_file: "{{ gcp_cred_file }}"
+#      state: present
+#    register: address
+
+  - name: create a instance
+    gcp_compute_instance:
+      name: samayein-tz
+      project: "{{ gcp_project }}"
+      zone: "{{ zone }}"
+      machine_type: n2-custom-4-16384
+      disks:
+      - auto_delete: 'true'
+        boot: 'true'
+        source: "{{ disk }}"
+      labels:
+        environment: testing
+      network_interfaces:
+      - subnetwork: "projects/vpc-host-nonprod-406007/regions/asia-southeast1/subnetworks/backend"
+        access_configs:
+        - name: "External NAT"
+          type: ONE_TO_ONE_NAT
+      state: present
