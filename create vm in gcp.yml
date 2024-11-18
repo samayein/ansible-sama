@@ -10,7 +10,6 @@
     source_image: "projects/windows-cloud/global/images/windows-server-2022-dc-v20241115"
     disk_size: 50
     disk_type: "pd-standard"
-    subnetwork: "projects/vpc-host-nonprod-406007/regions/asia-southeast1/subnetworks/backend"
     service_account_email: "661396101845-compute@developer.gserviceaccount.com"
   tasks:
     - name: create boot disk
@@ -34,12 +33,4 @@
           source: "{{ disk }}"
           initialize_params:
             disk_type: "{{ disk_type }}"
-        labels:
-          goog-ec-src: "vm_add-tf"
-        network_interfaces:
-        - network: 
-            selfLink: "{{ subnetwork }}"
-          access_configs:
-          - name: "External NAT"
-            type: "ONE_TO_ONE_NAT"
  
