@@ -2,14 +2,6 @@
 - name: Create a VM instance in GCP using shared VPC
   hosts: localhost
   gather_facts: no
-  vars:
-    project: "your-gcp-project-id"
-    zone: "asia-southeast1-b"
-    instance_name: "my-vm-instance"
-    machine_type: "n1-standard-1"
-    source_image: "projects/ubuntu-os-cloud/global/images/family/ubuntu-2204-lts"
-    network_project: "shared-vpc-host-project-id"
-    subnetwork: "shared-vpc-subnetwork-name"
   tasks:
     - name: Create a VM instance
       google.cloud.gcp_compute_instance:
