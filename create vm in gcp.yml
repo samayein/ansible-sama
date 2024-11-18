@@ -1,0 +1,31 @@
+---
+- name: Create a VM instance in GCP using shared VPC
+  hosts: localhost
+  gather_facts: no
+  vars:
+    project: "factory-nonprod-project"
+    zone: "asia-southeast1-b"
+    instance_name: "my-vm-instance"
+    machine_type: "n1-standard-1"
+    source_image: "projects/debian-cloud/global/images/family/debian-10"
+    network_project: "vpc-host-nonprod-406007"
+    subnetwork: "backend"
+  tasks:
+    - name: Create a VM instance
+      google.cloud.gcp_compute_instance:
+        name: "{{ instance_name }}"
+        machine_type: "{{ machine_type }}"
+        zone: "{{ zone }}"
+        project: "{{ project }}"
+        disks:
+          - auto_delete: true
+            boot: true
+            initialize_params:
+              source_image: "{{ source_image }}"
+        network_interfaces:
+          - network: "projects/{{ network_project }}/global/networks/default"
+            subnetwork: "projects/{{ network_project }}/regions/{{ zone | regex_replace('-[a-z]$', '') }}/subnetworks/{{ subnetwork }}"
+            access_configs:
+              - name: "External NAT"
+                type: "ONE_TO_ONE_NAT"
+      register: vm
