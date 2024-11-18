@@ -3,23 +3,30 @@
   hosts: localhost
   gather_facts: no
   vars:
-    project: "factory-nonprod-project"
+    project: "your-gcp-project-id"
     zone: "asia-southeast1-b"
     instance_name: "my-vm-instance"
     machine_type: "n1-standard-1"
     source_image: "projects/ubuntu-os-cloud/global/images/family/ubuntu-2204-lts"
-    network_project: "vpc-host-nonprod-406007"
-    subnetwork: "backend"
+    network_project: "shared-vpc-host-project-id"
+    subnetwork: "shared-vpc-subnetwork-name"
   tasks:
     - name: Create a VM instance
       google.cloud.gcp_compute_instance:
-        name: "{{ instance_name }}"
-        machine_type: "{{ machine_type }}"
-        zone: "{{ zone }}"
-        project: "{{ project }}"
+        name: "samayein-tz"
+        machine_type: "n1-standard-1"
+        zone: "asia-southeast1-b"
+        project: "factory-nonprod-project"
         disks:
           - auto_delete: true
             boot: true
             initialize_params:
-              source_image: "{{ source_image }}"
+              source_image: "projects/ubuntu-os-cloud/global/images/family/ubuntu-2204-lts"
+        network_interfaces:
+          - network: "projects/vpc-host-nonprod-406007/global/networks/default"
+            subnetwork: "projects/vpc-host-nonprod-406007/regions/asia-southeast1/subnetworks/backend"
+            access_configs:
+              - name: "External NAT"
+                type: "ONE_TO_ONE_NAT"
       register: vm
+ 
