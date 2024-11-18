@@ -17,7 +17,6 @@
         network_interfaces:
           - subnetwork: 
               selfLink: projects/vpc-host-nonprod-406007/regions/asia-southeast1/subnetworks/backend
-            stack_type: IPV4_ONLY
+#            stack_type: IPV4_ONLY
         can_ip_forward: false
         deletion_protection: false
-
