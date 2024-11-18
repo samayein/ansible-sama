@@ -1,170 +1,30 @@
 ---
 
 - name: Create instance in GCP
-
   hosts: localhost
-
   gather_facts: false
-
   vars:
-
-    service_account_file: "./test-vm-413406-6b00fbb72e6d.json"
-
-    project: "test-vm-413406"
-
-    network_name: "test-ansible-network"
-
-    subnet_name: "test-ansible-subnet"
-
-    ip_name: "test-ansible-ip"
-
-    disk_name: "test-ansible-disk"
-
+    project: "factory-nonprod-project"
+    disk_name: "test-ansible-disk-01"
     machine_name: "test-ansible"
-
     region: "asia-southeast1"
-
     zone: "asia-southeast1-b"
-
     source_image: "projects/ubuntu-os-cloud/global/images/family/ubuntu-2204-lts"
-
-    subnet_cidr: "10.0.1.0/24"
-
-    disk_size: 10
-
+    disk_size: 20
     machine_type: "f1-micro"
 
-
-
   tasks:
-
     - name: Create a disk
-
       google.cloud.gcp_compute_disk:
-
         name: "{{ disk_name }}"
-
         size_gb: "{{ disk_size }}"
-
         source_image: "{{ source_image }}"
-
         zone: "{{ zone }}"
-
         project: "{{ project }}"
-
         auth_kind: serviceaccount
-
         service_account_file: "{{ service_account_file }}"
-
         state: present
-
       register: disk
-
-    
-
-    - name: Create a Network in GCP
-
-      google.cloud.gcp_compute_network:
-
-        auth_kind: serviceaccount
-
-        project: "{{ project }}"
-
-        service_account_file: "{{ service_account_file }}"
-
-        name: "{{ network_name }}"
-
-        auto_create_subnetworks: false
-
-        state: present
-
-      register: network
-
-
-
-    - name: Create a Subnet in the Network
-
-      google.cloud.gcp_compute_subnetwork:
-
-        auth_kind: serviceaccount
-
-        project: "{{ project }}"
-
-        service_account_file: "{{ service_account_file }}"
-
-        name: "{{ subnet_name }}"
-
-        region: "{{ region }}"
-
-        ip_cidr_range: "{{ subnet_cidr }}"
-
-        network: "{{ network }}"
-
-        state: present
-
-      register: subnet
-
-
-
-    - name: Reserve a static IP Address
-
-      google.cloud.gcp_compute_address:
-
-        auth_kind: serviceaccount
-
-        project: "{{ project }}"
-
-        service_account_file: "{{ service_account_file }}"
-
-        name: "{{ ip_name }}"
-
-        region: "{{ region }}"
-
-        state: present
-
-      register: address
-
-        
-
-    - name: Create an Instance 
-
-      google.cloud.gcp_compute_instance:
-
-        auth_kind: serviceaccount
-
-        project: "{{ project }}"
-
-        service_account_file: "{{ service_account_file }}"
-
-        state: present
-
-        name: "{{ machine_name }}"
-
-        machine_type: "{{ machine_type }}"
-
-        zone: "{{ zone }}"
-
-        disks:
-
-          - auto_delete: true
-
-            boot: true
-
-            source: "{{ disk }}"
-
-        network_interfaces:
-
-          - network: "{{ network }}"
-
-            subnetwork: "{{ subnet }}"
-
-            access_configs:
-
-              - name: External NAT
-
-                type: ONE_TO_ONE_NAT
-
-                nat_ip: "{{ address }}"
 
 
 
