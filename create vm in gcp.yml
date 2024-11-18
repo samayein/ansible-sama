@@ -37,7 +37,8 @@
         labels:
           goog-ec-src: "vm_add-tf"
         network_interfaces:
-        - network: "{{ subnetwork }}"
+        - network: 
+            selfLink: "{{ subnetwork }}"
           access_configs:
           - name: "External NAT"
             type: "ONE_TO_ONE_NAT"
