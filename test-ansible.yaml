@@ -10,5 +10,5 @@
     - name: test
       lineinfile:
         path: /tmp/test
-        line: "This line will be inserted before the match."
-        regexp: "Manual Way."
+        line: "auth    required    pam_tally2.so deny=5 unlock_time=600"
+        regexp: "This line will be inserted before the match."
