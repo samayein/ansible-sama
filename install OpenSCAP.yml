@@ -4,7 +4,7 @@
    - community.general
   become: true
   tasks:
-    - name: Install nmap
+    - name: Install Open SCAP
       community.general.zypper:
-        name: nmap
+        name: openscap openscap-utils scap-security-guide
         state: present
