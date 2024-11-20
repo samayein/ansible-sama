@@ -1,0 +1,10 @@
+---
+- hosts: all
+  collections:
+   - community.general
+  become: true
+  tasks:
+    - name: Install nmap
+      community.general.zypper:
+        name: nmap
+        state: present
