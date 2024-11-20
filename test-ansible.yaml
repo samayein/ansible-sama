@@ -1,8 +1,14 @@
 - name: Add a new line to my_file.txt
   hosts: suse02-tz
   tasks:
-    - name: Add new line
+#    - name: Add new line
+#      lineinfile:
+#        path: /tmp/test
+#        line: "Manual Way."
+#        insertafter: EOF
+#        
+    - name: test
       lineinfile:
         path: /tmp/test
-        line: "Manual Way."
-        insertafter: EOF
+        line: "This line will be inserted before the match."
+        regexp: "Manual Way."
