@@ -6,7 +6,7 @@
   tasks:
     - name: Install Open SCAP-1
       community.general.zypper:
-        name: openscap openscap-utils scap-security-guide
+        name: openscap
         state: present
     - name: Install Open SCAP-2
       community.general.zypper:
