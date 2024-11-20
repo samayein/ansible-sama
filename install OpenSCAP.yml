@@ -4,7 +4,15 @@
    - community.general
   become: true
   tasks:
-    - name: Install Open SCAP
+    - name: Install Open SCAP-1
       community.general.zypper:
         name: openscap openscap-utils scap-security-guide
+        state: present
+    - name: Install Open SCAP-2
+      community.general.zypper:
+        name: openscap-utils
+        state: present
+    - name: Install Open SCAP-3
+      community.general.zypper:
+        name: scap-security-guide
         state: present
