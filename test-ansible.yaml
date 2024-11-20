@@ -1,28 +1,8 @@
----
-
-- name: Create instance in GCP
-  hosts: localhost
-  gather_facts: false
-  vars:
-    project: "factory-nonprod-project"
-    disk_name: "test-ansible-disk-01"
-    machine_name: "test-ansible"
-    region: "asia-southeast1"
-    zone: "asia-southeast1-b"
-    source_image: "projects/ubuntu-os-cloud/global/images/family/ubuntu-2204-lts"
-    disk_size: 20
-    machine_type: "f1-micro"
-
+- name: Add a new line to my_file.txt
+  hosts: suse02-tz
   tasks:
-    - name: Create a disk
-      google.cloud.gcp_compute_disk:
-        name: "{{ disk_name }}"
-        size_gb: "{{ disk_size }}"
-        source_image: "{{ source_image }}"
-        zone: "{{ zone }}"
-        project: "{{ project }}"
-        state: present
-      register: disk
-
-
-
+    - name: Add new line
+      lineinfile:
+        path: /tmp/test
+        line: "Manual Way."
+        insertafter: EOF
